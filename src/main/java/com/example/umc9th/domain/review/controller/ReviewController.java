@@ -1,16 +1,12 @@
 package com.example.umc9th.domain.review.controller;
 
 import com.example.umc9th.domain.review.dto.ReviewResponseDTO;
-import com.example.umc9th.domain.review.entity.QReview;
-import com.example.umc9th.domain.review.entity.Review;
-import com.example.umc9th.domain.review.repository.ReviewRepository;
 import com.example.umc9th.domain.review.service.ReviewQueryService;
-import com.querydsl.core.BooleanBuilder;
+import com.example.umc9th.global.apiPayload.ApiResponse;
+import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,11 +19,16 @@ public class ReviewController {
 
     // 내가 작성한 리뷰 보기 API (가게별, 별점대 필터를 하나의 API로)
     @GetMapping("/my")
-    public List<ReviewResponseDTO.MyReviewItem> getMyReviews(
+    public ResponseEntity<ApiResponse<List<ReviewResponseDTO.MyReviewItem>>> getMyReviews(
             @RequestParam Long memberId,
             @RequestParam(required = false) String storeName,
             @RequestParam(required = false) Integer ratingBand
     ) {
-        return reviewQueryService.getMyReviews(memberId, storeName, ratingBand);
+        List<ReviewResponseDTO.MyReviewItem> result =
+                reviewQueryService.getMyReviews(memberId, storeName, ratingBand);
+
+        return ResponseEntity
+                .status(GeneralSuccessCode.OK.getStatus())
+                .body(ApiResponse.onSuccess(GeneralSuccessCode.OK, result));
     }
 }
