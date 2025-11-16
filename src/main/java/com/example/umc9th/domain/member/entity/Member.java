@@ -42,11 +42,14 @@ public class Member extends BaseEntity {
     private LocalDate birth;
 
     @Column(name = "point")
-    private Integer point;
+    @Builder.Default
+    private Integer point = 0;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private MemberStatus status;
+    @Builder.Default
+    private MemberStatus status = MemberStatus.ACTIVE;
+
 
     @Column(name = "inactive_date")
     private LocalDateTime inactiveDate;
@@ -61,6 +64,7 @@ public class Member extends BaseEntity {
     private List<MemberTerm> memberTermList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<MemberFood> memberFoodList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)

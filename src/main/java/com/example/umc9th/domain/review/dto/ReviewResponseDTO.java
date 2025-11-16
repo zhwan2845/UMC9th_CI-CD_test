@@ -18,4 +18,15 @@ public class ReviewResponseDTO {
         private String imageUrl;
         private LocalDateTime createdAt;
     }
+
+    @Builder
+    public record CreateReviewResult(
+            Long reviewId,
+            Long storeId,
+            Long memberId,
+            Integer rating,
+            String content,
+            String imageUrl,
+            LocalDateTime createdAt
+    ) {}
 }

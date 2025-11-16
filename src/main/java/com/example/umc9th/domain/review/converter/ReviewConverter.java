@@ -27,6 +27,18 @@ public class ReviewConverter {
                 .collect(Collectors.toList());
     }
 
+    public static ReviewResponseDTO.CreateReviewResult toCreateReviewResult(Review review) {
+        return ReviewResponseDTO.CreateReviewResult.builder()
+                .reviewId(review.getId())
+                .storeId(review.getStore().getId())
+                .memberId(review.getMember().getId())
+                .rating(review.getRating())
+                .content(review.getContent())
+                .imageUrl(extractImageUrl(review.getReviewImage()))
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
+
     private static String extractImageUrl(ReviewImage image) {
         return image == null ? null : image.getImageUrl();
     }

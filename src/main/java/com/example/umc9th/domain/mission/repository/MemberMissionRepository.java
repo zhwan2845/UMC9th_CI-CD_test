@@ -23,4 +23,7 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             MissionStatus status,
             Pageable pageable
     );
+
+    // 이미 도전 중인 미션인지 확인
+    boolean existsByMember_IdAndMission_IdAndStatus(Long memberId, Long missionId, MissionStatus status);
 }
