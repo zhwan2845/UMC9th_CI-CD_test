@@ -2,6 +2,7 @@ package com.example.umc9th.domain.mission.repository;
 
 import com.example.umc9th.domain.mission.entity.MemberMission;
 import com.example.umc9th.domain.mission.enums.MissionStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -26,4 +27,11 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
 
     // 이미 도전 중인 미션인지 확인
     boolean existsByMember_IdAndMission_IdAndStatus(Long memberId, Long missionId, MissionStatus status);
+
+    // 진행중인 미션 목록 페이지 조회
+    Page<MemberMission> findAllByMember_IdAndStatusOrderByIdDesc(
+            Long memberId,
+            MissionStatus status,
+            Pageable pageable
+    );
 }

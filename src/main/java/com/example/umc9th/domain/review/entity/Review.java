@@ -35,4 +35,5 @@ public class Review extends BaseEntity {
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private ReviewImage reviewImage;
+
 }

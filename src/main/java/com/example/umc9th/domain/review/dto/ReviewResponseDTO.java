@@ -3,7 +3,9 @@ package com.example.umc9th.domain.review.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewResponseDTO {
 
@@ -19,6 +21,17 @@ public class ReviewResponseDTO {
         private LocalDateTime createdAt;
     }
 
+    @Getter
+    @Builder
+    public static class MyReviewListDTO {
+        private List<MyReviewItem> reviewList;
+        private int listSize;
+        private int totalPage;
+        private long totalElements;
+        private boolean isFirst;
+        private boolean isLast;
+    }
+
     @Builder
     public record CreateReviewResult(
             Long reviewId,
@@ -29,4 +42,22 @@ public class ReviewResponseDTO {
             String imageUrl,
             LocalDateTime createdAt
     ) {}
+
+    @Builder
+    public record ReviewPreViewListDTO(
+            List<ReviewPreViewDTO> reviewList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ){}
+
+    @Builder
+    public record ReviewPreViewDTO(
+            String ownerNickname,
+            Integer score,
+            String body,
+            LocalDate createdAt
+    ){}
 }

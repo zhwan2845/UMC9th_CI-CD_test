@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface ReviewQueryService {
 
-    List<ReviewResponseDTO.MyReviewItem> getMyReviews(Long memberId, String storeName, Integer ratingBand);
+    ReviewResponseDTO.ReviewPreViewListDTO findReview(String storeName, Integer page);
+
+    ReviewResponseDTO.MyReviewListDTO getMyReviews(Long memberId, Integer page);
+
 }
