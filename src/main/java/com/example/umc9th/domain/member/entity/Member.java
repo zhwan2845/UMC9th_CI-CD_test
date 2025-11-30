@@ -5,6 +5,7 @@ import com.example.umc9th.domain.member.entity.mapping.MemberTerm;
 import com.example.umc9th.domain.member.enums.Gender;
 import com.example.umc9th.domain.member.enums.MemberStatus;
 import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.global.auth.enums.Role;
 import com.example.umc9th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,6 +39,9 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String address;
 
+    @Column(nullable = false)
+    private String detailAddress;
+
     @Column(name = "birth", nullable = false)
     private LocalDate birth;
 
@@ -54,8 +58,14 @@ public class Member extends BaseEntity {
     @Column(name = "inactive_date")
     private LocalDateTime inactiveDate;
 
-    @Column(name = "email", length = 100)
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "phone_number", length = 15)
     private String phoneNumber;

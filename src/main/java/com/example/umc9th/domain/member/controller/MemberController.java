@@ -4,6 +4,7 @@ import com.example.umc9th.domain.member.dto.MemberRequestDTO;
 import com.example.umc9th.domain.member.dto.MemberResponseDTO;
 import com.example.umc9th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc9th.domain.member.service.MemberCommandService;
+import com.example.umc9th.domain.member.service.MemberQueryService;
 import com.example.umc9th.domain.mission.dto.MemberMissionResponseDTO;
 import com.example.umc9th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc9th.domain.mission.service.MemberMissionQueryService;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberCommandService memberCommandService;
+    private final MemberQueryService memberQueryService;
     private final ReviewQueryService reviewQueryService;
     private final MemberMissionQueryService memberMissionQueryService;
 
@@ -35,6 +37,14 @@ public class MemberController {
             @RequestBody @Valid MemberRequestDTO.JoinDTO dto
     ){
         return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberCommandService.signup(dto));
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public ApiResponse<MemberResponseDTO.LoginDTO> login(
+            @RequestBody @Valid MemberRequestDTO.LoginDTO dto
+    ){
+        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberQueryService.login(dto));
     }
 
     // 내가 작성한 리뷰 목록 조회
