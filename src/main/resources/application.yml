@@ -24,3 +24,9 @@ jwt:
     expiration:
       access: 14400000
       refresh: 1209600000
+
+kakao:
+  rest-api-key: KAKAO_REST_API_KEY
+  redirect-uri: http://localhost:8080/oauth
+  token-uri: https://kauth.kakao.com/oauth/token
+  user-info-uri: https://kapi.kakao.com/v2/user/me

@@ -28,6 +28,7 @@ public class SecurityConfig {
             "/login",
             "/sign-up",
             "/reissue",
+            "/oauth",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
