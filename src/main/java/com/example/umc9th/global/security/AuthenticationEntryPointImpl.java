@@ -13,7 +13,6 @@ import java.io.IOException;
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-
     @Override
     public void commence(
             HttpServletRequest request,

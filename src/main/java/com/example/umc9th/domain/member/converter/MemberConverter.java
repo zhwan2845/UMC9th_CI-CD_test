@@ -25,9 +25,9 @@ public class MemberConverter {
     ){
         return Member.builder()
                 .name(dto.name())
-                .email(dto.email()) // 추가된 코드
-                .password(password) // 추가된 코드
-                .role(role)         // 추가된 코드
+                .email(dto.email())
+                .password(password)
+                .role(role)
                 .birth(dto.birth())
                 .address(dto.address())
                 .detailAddress(dto.specAddress())
@@ -37,11 +37,13 @@ public class MemberConverter {
 
     public static MemberResponseDTO.LoginDTO toLoginDTO(
             Member member,
-            String accessToken
+            String accessToken,
+            String refreshToken
     ) {
         return MemberResponseDTO.LoginDTO.builder()
                 .memberId(member.getId())
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }

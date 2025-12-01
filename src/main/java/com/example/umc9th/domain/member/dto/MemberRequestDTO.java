@@ -45,4 +45,9 @@ public class MemberRequestDTO {
             @NotBlank
             String password
     ){}
+
+    public record ReissueDTO(
+            @NotBlank
+            String refreshToken
+    ){}
 }

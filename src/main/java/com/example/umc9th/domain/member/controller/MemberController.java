@@ -13,8 +13,9 @@ import com.example.umc9th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc9th.domain.review.service.ReviewQueryService;
 import com.example.umc9th.global.annotation.ValidPage;
 import com.example.umc9th.global.apiPayload.ApiResponse;
-import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,16 @@ public class MemberController {
     private final MemberMissionQueryService memberMissionQueryService;
 
     // 회원가입
+    @Operation(
+            summary = "회원가입",
+            description = "이메일, 비밀번호, 기본 정보를 입력받아 회원을 생성합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = MemberRequestDTO.JoinDTO.class)
+                    )
+            )
+    )
     @PostMapping("/sign-up")
     public ApiResponse<MemberResponseDTO.JoinDTO> signUp(
             @RequestBody @Valid MemberRequestDTO.JoinDTO dto
@@ -40,6 +51,16 @@ public class MemberController {
     }
 
     // 로그인
+    @Operation(
+            summary = "로그인",
+            description = "이메일과 비밀번호로 로그인하여 accessToken, refreshToken을 발급받습니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = MemberRequestDTO.LoginDTO.class)
+                    )
+            )
+    )
     @PostMapping("/login")
     public ApiResponse<MemberResponseDTO.LoginDTO> login(
             @RequestBody @Valid MemberRequestDTO.LoginDTO dto
@@ -87,5 +108,26 @@ public class MemberController {
                 memberMissionQueryService.getChallengingMissions(memberId, page);
 
         return ApiResponse.onSuccess(MissionSuccessCode.FOUND, result);
+    }
+
+    // 토큰 재발급
+    @Operation(
+            summary = "액세스 토큰 재발급",
+            description = "갱신 가능한 refreshToken을 이용해 새로운 accessToken, refreshToken을 발급받습니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = MemberRequestDTO.ReissueDTO.class)
+                    )
+            )
+    )
+    @PostMapping("/reissue")
+    public ApiResponse<MemberResponseDTO.LoginDTO> reissue(
+            @RequestBody @Valid MemberRequestDTO.ReissueDTO dto
+    ) {
+        return ApiResponse.onSuccess(
+                MemberSuccessCode.FOUND,
+                memberQueryService.reissue(dto)
+        );
     }
 }

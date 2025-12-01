@@ -41,8 +41,40 @@ public class MemberQueryServiceImpl implements MemberQueryService{
 
         // 엑세스 토큰 발급
         String accessToken = jwtUtil.createAccessToken(userDetails);
+        String refreshToken = jwtUtil.createRefreshToken(userDetails);
 
         // DTO 조립
-        return MemberConverter.toLoginDTO(member, accessToken);
+        return MemberConverter.toLoginDTO(member, accessToken, refreshToken);
+    }
+
+    // refresh 토큰 재발급
+    @Override
+    public MemberResponseDTO.LoginDTO reissue(
+            MemberRequestDTO.ReissueDTO dto
+    ) {
+        String refreshToken = dto.refreshToken();
+
+        // refresh 토큰 검증
+        if (!jwtUtil.isValid(refreshToken)) {
+            throw new MemberException(MemberErrorCode.INVALID);
+        }
+
+        String email = jwtUtil.getEmail(refreshToken);
+        if (email == null) {
+            throw new MemberException(MemberErrorCode.INVALID);
+        }
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+
+        CustomUserDetails userDetails = new CustomUserDetails(member);
+
+        // 새로운 access 토큰 발급
+        String newAccessToken = jwtUtil.createAccessToken(userDetails);
+
+        // refresh 토큰은 그대로 재사용 (원하면 여기서 새로 발급해도 됨)
+        String newRefreshToken = refreshToken;
+
+        return MemberConverter.toLoginDTO(member, newAccessToken, newRefreshToken);
     }
 }
